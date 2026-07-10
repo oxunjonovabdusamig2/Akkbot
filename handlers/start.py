@@ -10,7 +10,13 @@ router = Router(name="start")
 
 @router.message(CommandStart())
 async def cmd_start(message: Message):
-    await message.answer(
-        "👋 Assalomu alaykum!\n\nXush kelibsiz.",
-        reply_markup=admin_main_menu(),
-    )
+    if await db.is_admin(message.from_user.id):
+        await message.answer(
+            "👋 Assalomu alaykum, Admin!",
+            reply_markup=admin_main_menu(),
+        )
+    else:
+        await message.answer(
+            "👋 Salom! Bu bot faqat adminlar uchun mo'ljallangan.\n"
+            "Sizga kirish huquqi berilmagan."
+        )
